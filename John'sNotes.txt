@@ -1,0 +1,4 @@
+Just some notes of things I saw that can be adjusted:
+- Since the game is in 3:4 (the aspect ratio the project opened wth), might want to adjust the UI canvas and their elements to fit in that aspect ratio.
+- I adjusted the character's gravity scale and speed because it seemed to be falling too fast and flying forward too fast.
+- Might want to look into the colliders for the player and spikes because they may be too big?

@@ -2,38 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb2d;
-
-    public float speed;
-    public float jumpForce;
-
     public Text scoreText;
 
-    private int score; 
+    //John: Added initial value to speed, jumpForce, and score
+    public float speed = 3f;
+    public float jumpForce = 2f;
+    private int score = 0; 
+
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-
-        score = 0;
-
         SetScoreText();
     }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            float jumpVelcocity = 2f;
-            rb2d.velocity = Vector2.up * jumpVelcocity; 
-            float moveHorizontal = Input.GetAxis("Horizontal");
-        }
-
-        if (Input.GetKey("escape"))
-            Application.Quit();
-    }
     private void FixedUpdate()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -42,12 +28,26 @@ public class PlayerController : MonoBehaviour
         rb2d.AddForce(movement * speed);
     }
 
+    private void Update()
+    {
+        //John: Changed Input.GetKey to Input.GetKeyDown, since I assume you want a more flappy bird flight thing
+        //      Also replaced jumpVelocity with jumpForce;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb2d.velocity = Vector2.up * jumpForce;
+        }
+
+        //John: Changed the Input.GetAxis("escape") to Input.GetKey(KeyCode.Escape), since "escape" isn't a set input and GetKey would be simpler.
+        if (Input.GetKey(KeyCode.Escape))
+            Application.Quit();
+    }
+
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Spike"))
         {
-            other.gameObject.SetActive(false);
-            Application.LoadLevel("GameOver");
+            SceneManager.LoadSceneAsync("GameOver");
         }
 
         if (other.gameObject.CompareTag("PickUp"))
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("Win"))
         {
-            Application.LoadLevel("YouWin");
+            SceneManager.LoadSceneAsync("YouWin");
         }
     }
 

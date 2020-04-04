@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonInteract : MonoBehaviour
 {
+    /*
     public void StartGame(string level)
     {
         Application.LoadLevel("Main");
@@ -14,8 +15,16 @@ public class ButtonInteract : MonoBehaviour
     {
         Application.LoadLevel("MainMenu");
     }
+    */
 
-    public void Exit(string level)
+    //John: Simplified the load function to one function
+    public void LoadLevel(string level)
+    {
+        SceneManager.LoadSceneAsync(level);
+    }
+
+    //John: Removed the string parameter because you don't need it
+    public void Exit()
     {
         Application.Quit();
     }
